@@ -9,10 +9,13 @@ import memeimg from './memetempinfo';
 import EditIcon from '@mui/icons-material/Edit';
 import {Link} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
-function Images() {
 
+import { useTheme, ThemeProvider } from '@mui/material/styles';
+
+function Images() {
+  const theme = useTheme();
   return ( 
-  <>
+    <ThemeProvider theme={theme}>
       <Container maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={2}>
@@ -37,7 +40,7 @@ function Images() {
             ))}
           </Grid>
         </Container>
-  </> );
+        </ThemeProvider> );
 }
 
 export default Images;

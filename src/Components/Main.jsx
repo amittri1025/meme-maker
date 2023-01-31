@@ -5,16 +5,14 @@ import Button from "@mui/material/Button";
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-const theme = createTheme();
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme, ThemeProvider } from '@mui/material/styles';
 import Images from './Images'
 
 
 
 
-
 function Main() {
+  const theme = useTheme();
   return (
     <>
       <ThemeProvider theme={theme}>

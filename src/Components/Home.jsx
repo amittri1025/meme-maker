@@ -4,7 +4,7 @@ import CameraIcon from '@mui/icons-material/PhotoCamera';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer'
 import Main from './Main';
 import MemeEdit from './MemeEdit'
@@ -15,9 +15,10 @@ import {   BrowserRouter,
 // icons
 
 
-const theme = createTheme();
 
-export default function Album() {
+export default function Home() {
+
+const theme = useTheme();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
