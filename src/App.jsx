@@ -13,6 +13,9 @@ const theme = createTheme({
     secondary: {
       main: '#fff',
     },
+    Download:{
+      main:'#00d131'
+    }
   },
   typography: {
     h1: {

@@ -12,6 +12,7 @@ import { useTheme, ThemeProvider } from "@mui/material/styles";
 import meme1 from "../images/2.jpg";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
+import DownloadIcon from '@mui/icons-material/Download';
 function Copyright(props) {
   return (
     <Typography
@@ -157,7 +158,8 @@ export default function MemeEdit() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                color="Download"
+                endIcon={<DownloadIcon />}
               >
                 Download
               </Button>
