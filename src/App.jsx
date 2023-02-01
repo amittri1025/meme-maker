@@ -8,7 +8,7 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1f1f20',
+      main: '#222',
     },
     secondary: {
       main: '#fff',
@@ -19,23 +19,28 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontWeight: 600,
+      fontWeight: 100,
+    },
+    h2:{
+      fontWeight: 800,
+      color: "#FFFFF",
+      fontFamily: "Consolas"
     },
     h4: {
       fontWeight: 700,
     },
     h5: {
-      fontWeight: 200,
+      fontWeight: 500,
     },
     h6: {
       fontWeight: 200,
     },
     subtitle1: {
-      fontSize: '1.2rem',
+      fontSize: '1.1rem',
       fontWeight: 600,
     },
     button: {
-      fontWeight: 1000,
+      fontWeight: 600,
     },
   },
 });

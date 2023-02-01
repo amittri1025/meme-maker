@@ -12,7 +12,7 @@ import { useTheme, ThemeProvider } from "@mui/material/styles";
 import meme1 from "../images/2.jpg";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
-import DownloadIcon from '@mui/icons-material/Download';
+import DownloadIcon from "@mui/icons-material/Download";
 function Copyright(props) {
   return (
     <Typography
@@ -37,6 +37,7 @@ export default function MemeEdit() {
   const theme = useTheme();
 
   const [txt, setTxt] = useState("");
+  const [img, setImg] = useState(meme1);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,14 +59,13 @@ export default function MemeEdit() {
       });
   };
 
-  // upload Images
+  //Add local image
   const handleUpload = (event) => {
+    console.log("hello");
     event.preventDefault();
     const { files } = event.target;
     const uploadFile = URL.createObjectURL(files[0]);
-    this.setState({
-      randomImg: uploadFile,
-    });
+    setImg(uploadFile);
   };
 
   return (
@@ -73,44 +73,40 @@ export default function MemeEdit() {
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
-        // id="my-img"
+          // id="my-img"
           item
           xs={false}
           sm={4}
           md={7}
-          container 
+          container
           direction="column"
           alignItems="center"
           justifyContent="center"
           // sx={{
 
-          // }}  
-
+          // }}
         >
           <Box
-              id="my-img"
+            id="my-img"
             sx={{
               width: 500,
-              height:500,
-            backgroundImage: `url(${meme1})`,
-            backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-            backgroundPosition: 'center',
+              height: 500,
+              backgroundImage: `url(${img})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           >
-            <Draggable>
-            <Typography
-              component="h1"
-              variant="h5"
-              xs={{
-                color: "secondary.main",
-              }}
-            >
-              {txt}
-            </Typography>
-          </Draggable>
+            <Draggable theme={theme}>
+              <h1
+                sx={{
+                  color: "#fff",
+                }}
+              >
+                {txt}
+              </h1>
+            </Draggable>
           </Box>
-          
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
@@ -145,14 +141,27 @@ export default function MemeEdit() {
                 label="Second Text"
               />
               <Button
-                onClick={handleUpload}
+                className="custom-file"
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  my: 2,
+                }}
               >
-                Update
+                <input
+                  onChange={handleUpload}
+                  type="file"
+                  accept="image/x-png,image/gif,image/jpeg"
+                />
+                <label
+                  className="custom-file-label border-info"
+                  for="inputGroupFile04"
+                >
+                  Choose local image
+                </label>
               </Button>
+
               <Button
                 onClick={handleJpeg}
                 type="submit"
