@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
-import meme1 from "../images/2.jpg";
+import meme1 from "../images/4.jpg";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -36,15 +36,20 @@ let txt = "adf";
 export default function MemeEdit() {
   const theme = useTheme();
 
-  const [txt, setTxt] = useState("");
+  const [txt1, setTxt1] = useState("");
+  const [txt2, setTxt2] = useState("");
   const [img, setImg] = useState(meme1);
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
-  const handleChange = (event) => {
-    setTxt(event.target.value);
+  const handleChange1 = (event) => {
+    setTxt1(event.target.value);
+  };
+
+  const handleChange2 = (event) => {
+    setTxt2(event.target.value);
   };
 
   // Download JPEG image
@@ -101,9 +106,19 @@ export default function MemeEdit() {
               <h1
                 sx={{
                   color: "#fff",
+                  textDecoration:"underline"
                 }}
               >
-                {txt}
+                {txt1}
+              </h1>
+            </Draggable>
+            <Draggable theme={theme}>
+              <h1
+                sx={{
+                  color: "#fff",
+                }}
+              >
+                {txt2}
               </h1>
             </Draggable>
           </Box>
@@ -132,13 +147,14 @@ export default function MemeEdit() {
                 fullWidth
                 label="First Text"
                 autoFocus
-                onChange={handleChange}
+                onChange={handleChange1}
               />
               <TextField
                 margin="normal"
                 fullWidth
                 name="password"
                 label="Second Text"
+                onChange={handleChange2}
               />
               <Button
                 className="custom-file"
