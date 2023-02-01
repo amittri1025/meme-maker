@@ -28,7 +28,7 @@ function Footer() {
       color="text.secondary"
       component="p"
     >
-     Best Meme Maker so far...
+     Developed and Managed by Amit Tripathi
     </Typography>
     <Copyright />
   </Box>
