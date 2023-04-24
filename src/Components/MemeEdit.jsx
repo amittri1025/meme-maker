@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Draggable, { DraggableCore } from "react-draggable";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +13,9 @@ import meme1 from "../images/4.jpg";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
 import DownloadIcon from "@mui/icons-material/Download";
+import memetempinfo from "./memetempinfo";
+import { useSelector } from "react-redux";
+
 function Copyright(props) {
   return (
     <Typography
@@ -35,11 +38,17 @@ let txt = "adf";
 
 export default function MemeEdit() {
   const theme = useTheme();
-
   const [txt1, setTxt1] = useState("");
   const [txt2, setTxt2] = useState("");
-  const [img, setImg] = useState(meme1);
-
+  const [img, setImg] = useState();
+  const memeId = useSelector((store) => store.meme._id);
+  useEffect(() => {
+    memetempinfo.map((meme) => {
+      if (meme.id == memeId) {
+        setImg(meme.src);
+      }
+    });
+  }, [img]);
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -106,7 +115,7 @@ export default function MemeEdit() {
               <h1
                 sx={{
                   color: "#fff",
-                  textDecoration:"underline"
+                  textDecoration: "underline",
                 }}
               >
                 {txt1}

@@ -2,14 +2,11 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import { useTheme, ThemeProvider } from '@mui/material/styles';
-import Images from './Images'
-
-
-
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
+import { useTheme, ThemeProvider } from "@mui/material/styles";
+import Images from "./Images";
 
 function Main() {
   const theme = useTheme();
