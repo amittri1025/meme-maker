@@ -1,12 +1,9 @@
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
+import { useEffect, useState } from "react";
 import { CardActionArea } from "@mui/material";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import memeimg from "./memetempinfo";
-import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
@@ -19,12 +16,29 @@ function Images() {
   const memeSelectHandle = (_id) => {
     dispatch(memeActions.setId(_id));
   }
+
+  const [imgs, setImgs] = useState([]);
+
+  const url = "https://api.imgflip.com/get_memes";
+
+  const fetchInfo = async () => {
+    return fetch(url)
+      .then((res) => res.json())
+      .then((d) => setImgs(d));
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+  
+
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={2}>
-          {memeimg.map((card) => (
+          {imgs.data?.memes.map((card) => (
             <Grid onClick={() => memeSelectHandle(card.id)} item key={card.id} xs={12} sm={6} md={4}>
               <Link to="memes">
                 <Card
@@ -39,8 +53,8 @@ function Images() {
                     <CardMedia
                       component="img"
                       height="200"
-                      image={card.src}
-                      alt="green iguana"
+                      image={card.url}
+                      alt={card.name}
                     />
                   </CardActionArea>
                 </Card>
@@ -54,3 +68,28 @@ function Images() {
 }
 
 export default Images;
+
+
+// {memeimg.map((card) => (
+//   <Grid onClick={() => memeSelectHandle(card.id)} item key={card.id} xs={12} sm={6} md={4}>
+//     <Link to="memes">
+//       <Card
+//         sx={{
+//           maxWidth: 345,
+//           ":hover": {
+//             boxShadow: 20, // theme.shadows[20]
+//           },
+//         }}
+//       >
+//         <CardActionArea>
+//           <CardMedia
+//             component="img"
+//             height="200"
+//             image={card.src}
+//             alt="green iguana"
+//           />
+//         </CardActionArea>
+//       </Card>
+//     </Link>
+//   </Grid>
+// ))}

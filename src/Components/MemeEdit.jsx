@@ -3,52 +3,46 @@ import Draggable, { DraggableCore } from "react-draggable";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
-import meme1 from "../images/4.jpg";
 import * as htmlToImage from "html-to-image";
-import download from "downloadjs";
 import DownloadIcon from "@mui/icons-material/Download";
-import memetempinfo from "./memetempinfo";
 import { useSelector } from "react-redux";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-let txt = "adf";
 
 export default function MemeEdit() {
   const theme = useTheme();
   const [txt1, setTxt1] = useState("");
   const [txt2, setTxt2] = useState("");
-  const [img, setImg] = useState();
-  const memeId = useSelector((store) => store.meme._id);
+  // const [img, setImg] = useState();
+  const [imgs, setImgs] = useState([]);
+
+  const url = "https://api.imgflip.com/get_memes";
+
+  const fetchInfo = async () => {
+    return fetch(url)
+      .then((res) => res.json())
+      .then((d) => setImgs(d));
+  };
+
   useEffect(() => {
-    memetempinfo.map((meme) => {
+    fetchInfo();
+  }, []);
+  
+  const memeId = useSelector((store) => store.meme._id);
+  
+
+  useEffect(() => {
+    imgs.data?.memes.map((meme) => {
       if (meme.id == memeId) {
-        setImg(meme.src);
+        setImgs(meme.url);
       }
     });
-  }, [img]);
+  }, [imgs]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -103,11 +97,12 @@ export default function MemeEdit() {
           <Box
             id="my-img"
             sx={{
-              width: 500,
-              height: 500,
-              backgroundImage: `url(${img})`,
+              height: '70%',
+              width: '70%',
+              backgroundImage: `url(${imgs})`,
               backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
+              backgroundSize: "contain",
+              
               backgroundPosition: "center",
             }}
           >
@@ -154,6 +149,7 @@ export default function MemeEdit() {
               <TextField
                 margin="normal"
                 fullWidth
+                name="1"
                 label="First Text"
                 autoFocus
                 onChange={handleChange1}
@@ -161,7 +157,7 @@ export default function MemeEdit() {
               <TextField
                 margin="normal"
                 fullWidth
-                name="password"
+                name="2"
                 label="Second Text"
                 onChange={handleChange2}
               />
