@@ -11,14 +11,40 @@ import { useTheme, ThemeProvider } from "@mui/material/styles";
 import * as htmlToImage from "html-to-image";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useSelector } from "react-redux";
+import styled from 'styled-components';
 
 
 export default function MemeEdit() {
   const theme = useTheme();
-  const [txt1, setTxt1] = useState("");
-  const [txt2, setTxt2] = useState("");
-  // const [img, setImg] = useState();
   const [imgs, setImgs] = useState([]);
+
+  const [inputTexts, setInputTexts] = useState([""]); // Array of input texts
+  const [memeTexts, setMemeTexts] = useState([""]); // Array of meme texts
+  const [textColor, setTextColor] = useState('#fff');
+
+  const handleInputChange = (index, event) => {
+    const newInputTexts = [...inputTexts];
+    newInputTexts[index] = event.target.value;
+    setInputTexts(newInputTexts);
+  };
+
+  const handleMemeTextChange = () => {
+    setMemeTexts(inputTexts);
+  };
+
+  const addTextInput = () => {
+    setInputTexts([...inputTexts, ""]);
+    setMemeTexts([...memeTexts, ""]);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  const handleColorChange = (event) => {
+    setTextColor(event.target.value);
+  };
+
 
   const url = "https://api.imgflip.com/get_memes";
 
@@ -31,9 +57,8 @@ export default function MemeEdit() {
   useEffect(() => {
     fetchInfo();
   }, []);
-  
+
   const memeId = useSelector((store) => store.meme._id);
-  
 
   useEffect(() => {
     imgs.data?.memes.map((meme) => {
@@ -42,18 +67,6 @@ export default function MemeEdit() {
       }
     });
   }, [imgs]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
-  const handleChange1 = (event) => {
-    setTxt1(event.target.value);
-  };
-
-  const handleChange2 = (event) => {
-    setTxt2(event.target.value);
-  };
 
   // Download JPEG image
   const handleJpeg = () => {
@@ -76,6 +89,15 @@ export default function MemeEdit() {
     setImg(uploadFile);
   };
 
+  const MemeText = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: ${(props) => props.color};
+  text-shadow: 2px 2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, -2px -2px 0 #000, 2px 0px 0 #000, 0px 2px 0 #000, -2px 0px 0 #000, 0px -2px 0 #000, 2px 2px 2px rgba(206,103,103,0);
+
+`;
+
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -97,34 +119,20 @@ export default function MemeEdit() {
           <Box
             id="my-img"
             sx={{
-              height: '70%',
-              width: '70%',
+              height: "70%",
+              width: "70%",
               backgroundImage: `url(${imgs})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
-              
+              border: "2px solid black",
               backgroundPosition: "center",
             }}
           >
-            <Draggable theme={theme}>
-              <h1
-                sx={{
-                  color: "#fff",
-                  textDecoration: "underline",
-                }}
-              >
-                {txt1}
-              </h1>
-            </Draggable>
-            <Draggable theme={theme}>
-              <h1
-                sx={{
-                  color: "#fff",
-                }}
-              >
-                {txt2}
-              </h1>
-            </Draggable>
+            {memeTexts.map((memeText, index) => (
+              <Draggable theme={theme}>
+                <MemeText color={textColor} key={index}>{memeText}</MemeText>
+              </Draggable>
+            ))}
           </Box>
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -146,21 +154,26 @@ export default function MemeEdit() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              <TextField
-                margin="normal"
-                fullWidth
-                name="1"
-                label="First Text"
-                autoFocus
-                onChange={handleChange1}
-              />
-              <TextField
-                margin="normal"
-                fullWidth
-                name="2"
-                label="Second Text"
-                onChange={handleChange2}
-              />
+              {inputTexts.map((inputText, index) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  name="2"
+                  label="Add Some Text"
+                  key={index}
+                  type="text"
+                  value={inputText}
+                  onChange={(event) => handleInputChange(index, event)}
+                >
+                 
+                </TextField>
+                 
+              ))} 
+
+              <input type="color" value={textColor} onChange={handleColorChange}/>
+              <button onClick={handleMemeTextChange}>Apply Text</button>
+              <button onClick={addTextInput}>Add Text</button>
+
               <Button
                 className="custom-file"
                 type="submit"
@@ -199,4 +212,8 @@ export default function MemeEdit() {
       </Grid>
     </ThemeProvider>
   );
+
+
 }
+
+
