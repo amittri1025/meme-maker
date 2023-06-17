@@ -11,8 +11,14 @@ import { useTheme, ThemeProvider } from "@mui/material/styles";
 import * as htmlToImage from "html-to-image";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useSelector } from "react-redux";
-import styled from 'styled-components';
-
+import styled from "styled-components";
+import Stack from '@mui/material/Stack'
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
+import TextDecreaseIcon from '@mui/icons-material/TextDecrease';
 
 export default function MemeEdit() {
   const theme = useTheme();
@@ -20,8 +26,8 @@ export default function MemeEdit() {
 
   const [inputTexts, setInputTexts] = useState([""]); // Array of input texts
   const [memeTexts, setMemeTexts] = useState([""]); // Array of meme texts
-  const [textColor, setTextColor] = useState('#fff');
-
+  const [textColor, setTextColor] = useState("#fff");
+  const [fontSize, setFontSize] = useState(1.5);  
   const handleInputChange = (index, event) => {
     const newInputTexts = [...inputTexts];
     newInputTexts[index] = event.target.value;
@@ -30,6 +36,20 @@ export default function MemeEdit() {
 
   const handleMemeTextChange = () => {
     setMemeTexts(inputTexts);
+  };
+
+  const handleMemeTextSize = (action) => {
+    setFontSize((prevSize) => {
+      let newSize = prevSize;
+  
+      if (action === 'increase') {
+        newSize += 1;
+      } else if (action === 'decrease') {
+        newSize -= 1;
+      }
+  
+      return newSize;
+    });
   };
 
   const addTextInput = () => {
@@ -44,7 +64,6 @@ export default function MemeEdit() {
   const handleColorChange = (event) => {
     setTextColor(event.target.value);
   };
-
 
   const url = "https://api.imgflip.com/get_memes";
 
@@ -86,17 +105,29 @@ export default function MemeEdit() {
     event.preventDefault();
     const { files } = event.target;
     const uploadFile = URL.createObjectURL(files[0]);
-    setImg(uploadFile);
+    setImgs(uploadFile);
   };
 
+  // text-shadow: ${fontSize*1.5}px ${fontSize*1.5}px 0 #000, ${fontSize*1.5}px -${fontSize*1.5}px 0 #000, -${fontSize*1.5}px ${fontSize*1.5}px 0 #000,
+  //     -${fontSize*1.5}px -${fontSize*1.5}px 0 #000, ${fontSize*1.5}px 0px 0 #000, 0px ${fontSize*1.5}px 0 #000, -${fontSize*1.5}px 0px 0 #000,
+  //     0px -${fontSize*1.5}px 0 #000, ${fontSize*1.5}px ${fontSize*1.5}px ${fontSize*1.5}px rgba(206, 103, 103, 0);
+  // -webkit-text-stroke: ${fontSize*0.9}px black; 
   const MemeText = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: ${(props) => props.color};
-  text-shadow: 2px 2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, -2px -2px 0 #000, 2px 0px 0 #000, 0px 2px 0 #000, -2px 0px 0 #000, 0px -2px 0 #000, 2px 2px 2px rgba(206,103,103,0);
+    font-size: ${fontSize}em;
+    font-family: "Arial";
+    font-weight: bolder;
+    text-align: center;
+    color: ${(props) => props.color};
+    text-shadow: ${fontSize*1.5}px ${fontSize*1.5}px 0px #111, 
+    ${fontSize*1.5}px -${fontSize*1.5}px 0px #111, 
+  -${fontSize*1.5}px ${fontSize*1.5}px 0px #111, 
+  -${fontSize*1.5}px -${fontSize*1.5}px 0px #111, 
+  ${fontSize*1.5}px 0px 0px #111, 
+  0px ${fontSize*1.5}px 0px #111, 
+  -${fontSize*1.5}px 0px 0px #111, 
+  0px -${fontSize*1.5}px 0px #111;
 
-`;
-
+  `;
 
   return (
     <ThemeProvider theme={theme}>
@@ -130,7 +161,9 @@ export default function MemeEdit() {
           >
             {memeTexts.map((memeText, index) => (
               <Draggable theme={theme}>
-                <MemeText color={textColor} key={index}>{memeText}</MemeText>
+                <MemeText color={textColor} key={index}>
+                  {memeText}
+                </MemeText>
               </Draggable>
             ))}
           </Box>
@@ -164,16 +197,28 @@ export default function MemeEdit() {
                   type="text"
                   value={inputText}
                   onChange={(event) => handleInputChange(index, event)}
-                >
-                 
-                </TextField>
-                 
-              ))} 
+                ></TextField>
+              ))}
 
-              <input type="color" value={textColor} onChange={handleColorChange}/>
-              <button onClick={handleMemeTextChange}>Apply Text</button>
-              <button onClick={addTextInput}>Add Text</button>
 
+              <Stack direction="row" spacing={2}>
+                 <input
+                type="color"
+                value={textColor}
+                onChange={handleColorChange}
+              />
+                <Button variant="contained"  color="greenblue" onClick={addTextInput}>
+                  Add Text
+                  <AddCircleIcon />
+                </Button>
+                <Button variant="contained" color="red"  onClick={handleMemeTextChange}>
+                 Insert Text <CheckCircleIcon />
+                </Button>
+                <Button variant="contained"   onClick={() => handleMemeTextSize('increase')}><TextIncreaseIcon /></Button>
+                <Button variant="contained"  onClick={() => handleMemeTextSize('decrease')}><TextDecreaseIcon /></Button>
+              </Stack>
+
+              {/* Choosing Custom Image */}
               <Button
                 className="custom-file"
                 type="submit"
@@ -212,8 +257,4 @@ export default function MemeEdit() {
       </Grid>
     </ThemeProvider>
   );
-
-
 }
-
-

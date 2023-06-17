@@ -13,8 +13,20 @@ const theme = createTheme({
     secondary: {
       main: '#fff',
     },
+    blue: {
+      main: '#00A5E3'
+    }, 
+    greenblue:{
+      main: '#00CDAC'
+    },
+    green: {
+      main: '#00A5E3'
+    }, 
+    red: {
+      main: '#FC6230'
+    }, 
     Download:{
-      main:'#00d131'
+      main:'#4DD091'
     }
   },
   typography: {
