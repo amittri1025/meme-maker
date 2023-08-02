@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import * as React from 'react';
 import './App.css'
-import Home from "./Components/Home"
+import Home from "./Components/Home.jsx"
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+
+const headfont = "'Pacifico', sans-serif"
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
       main: '#222',
     },
@@ -31,7 +34,9 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontWeight: 100,
+      fontFamily: headfont,
+      fontWeight: 200,
+
     },
     h2:{
       fontWeight: 800,
@@ -45,6 +50,7 @@ const theme = createTheme({
       fontWeight: 500,
     },
     h6: {
+      
       fontWeight: 200,
     },
     subtitle1: {
@@ -58,14 +64,38 @@ const theme = createTheme({
 });
 
 
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+    const [mode, setMode] = React.useState('light');
+    const colorMode = React.useMemo(
+      () => ({
+        toggleColorMode: () => {
+          setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        },
+      }),
+      [],
+    );
+
+    const theme = React.useMemo(
+      () =>
+        createTheme({
+          palette: {
+            mode,
+          },
+        }),
+      [mode],
+    );
 
   return (
+    <ColorModeContext.Provider value={colorMode}>
     <ThemeProvider theme={theme}>
-     <Home />
+      <CssBaseline/>
+      <Home />
      </ThemeProvider>
+     </ColorModeContext.Provider>
   )
 }
 

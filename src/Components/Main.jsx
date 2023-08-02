@@ -27,10 +27,14 @@ function Main() {
             <Container maxWidth="sm">
               <Typography
                 component="h1"
-                variant="h2"
+                variant="h1"
                 align="center"
                 color="text.primary"
                 gutterBottom
+                sx={{
+                  fontSize: "40px",
+                  fontWeight: 400,
+                }}
               >
                 Meme Maker 🤣
               </Typography>
