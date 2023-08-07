@@ -1,47 +1,46 @@
-import * as React from 'react';
-import './App.css'
-import Home from "./Components/Home.jsx"
+import * as React from "react";
+import "./App.css";
+import Home from "./Components/Home.jsx";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 
-const headfont = "'Pacifico', sans-serif"
+const headfont = "'Pacifico', sans-serif";
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#222',
+      main: "#222",
     },
     secondary: {
-      main: '#fff',
+      main: "#fff",
     },
     blue: {
-      main: '#00A5E3'
-    }, 
-    greenblue:{
-      main: '#00CDAC'
+      main: "#00A5E3",
+    },
+    greenblue: {
+      main: "#00CDAC",
     },
     green: {
-      main: '#00A5E3'
-    }, 
+      main: "#00A5E3",
+    },
     red: {
-      main: '#FC6230'
-    }, 
-    Download:{
-      main:'#4DD091'
-    }
+      main: "#FC6230",
+    },
+    Download: {
+      main: "#4DD091",
+    },
   },
   typography: {
     h1: {
       fontFamily: headfont,
       fontWeight: 200,
-
     },
-    h2:{
+    h2: {
       fontWeight: 800,
       color: "#FFFFF",
-      fontFamily: "Consolas"
+      fontFamily: "Consolas",
     },
     h4: {
       fontWeight: 700,
@@ -50,11 +49,10 @@ const theme = createTheme({
       fontWeight: 500,
     },
     h6: {
-      
       fontWeight: 200,
     },
     subtitle1: {
-      fontSize: '1.1rem',
+      fontSize: "1.1rem",
       fontWeight: 600,
     },
     button: {
@@ -63,40 +61,37 @@ const theme = createTheme({
   },
 });
 
-
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
-
 function App() {
+  const [mode, setMode] = React.useState("light");
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
 
-    const [mode, setMode] = React.useState('light');
-    const colorMode = React.useMemo(
-      () => ({
-        toggleColorMode: () => {
-          setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
         },
       }),
-      [],
-    );
-
-    const theme = React.useMemo(
-      () =>
-        createTheme({
-          palette: {
-            mode,
-          },
-        }),
-      [mode],
-    );
+    [mode]
+  );
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <Home />
-     </ThemeProvider>
-     </ColorModeContext.Provider>
-  )
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Home />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
 }
 
-export default App
+export default App;

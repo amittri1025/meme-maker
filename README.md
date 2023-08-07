@@ -1,5 +1,5 @@
-Free Open Source MEME maker
-to make create funny images.
+# Free Open Source MEME maker
+to create funny images for **FREE** **NO SIGNUP NEEDED**.
 
 ![image](https://user-images.githubusercontent.com/74503582/219581507-28fb63d8-c814-4daf-800a-338b0a512da2.png)
 

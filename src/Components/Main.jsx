@@ -60,6 +60,8 @@ function Main() {
 
           {/* Images section */}
           <Images />
+
+          
         </main>
       </ThemeProvider>
     </>

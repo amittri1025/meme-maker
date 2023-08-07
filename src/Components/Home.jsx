@@ -46,7 +46,7 @@ export default function Home() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="memes/*" element={<MemeEdit />} />
+          <Route path="/memes/:id" element={<MemeEdit />} />
         </Routes>
       </BrowserRouter>
       {/* Main app */}
