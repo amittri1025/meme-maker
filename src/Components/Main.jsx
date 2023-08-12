@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
 import Images from "./Images";
+import { Link } from "react-router-dom";
 
 function Main() {
   const theme = useTheme();
@@ -52,16 +53,13 @@ function Main() {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Choose Photo</Button>
+                <Button variant="contained">
+                  <Link to="/selectmemes">Choose Photos</Link>
+                </Button>
                 <Button variant="outlined">Upload Photo</Button>
               </Stack>
             </Container>
           </Box>
-
-          {/* Images section */}
-          <Images />
-
-          
         </main>
       </ThemeProvider>
     </>

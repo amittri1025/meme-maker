@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./App.css";
-import Home from "./Components/Home.jsx";
+import Home from "./Pages/Home.jsx";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -9,7 +9,7 @@ const headfont = "'Pacifico', sans-serif";
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
     primary: {
       main: "#222",
     },
@@ -72,16 +72,6 @@ function App() {
       },
     }),
     []
-  );
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
-    [mode]
   );
 
   return (

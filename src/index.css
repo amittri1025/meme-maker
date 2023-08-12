@@ -23,3 +23,14 @@
   body{
     background-color: #222;
   }
+
+  a {
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .link{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+ 

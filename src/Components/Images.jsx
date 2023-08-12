@@ -1,33 +1,50 @@
 import Card from "@mui/material/Card";
 import { useEffect, useState, useContext } from "react";
-import { CardActionArea } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 import Container from "@mui/material/Container";
-import memeimg from "./memetempinfo";
-import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import { useDispatch } from "react-redux";
-import { memeActions } from "../Store/store";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
-import {MemeContext} from "../Contexts/MemeContext";
+import { MemeContext } from "../Contexts/MemeContext";
+import { Link } from "react-router-dom";
+
+
+function srcset(image, size, rows = 1, cols = 1) {
+  return {
+    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+    srcSet: `${image}?w=${size * cols}&h=${
+      size * rows
+    }&fit=crop&auto=format&dpr=2 2x`,
+  };
+}
 
 function Images() {
   const theme = useTheme();
-  // const dispatch = useDispatch();
-  // const memeSelectHandle = (_id) => {
-  //   dispatch(memeActions.setId(_id));
-  // };
+  const { memeData } = useContext(MemeContext);
 
-  // const [imgs, setImgs] = useState([]);
-
-  const {memeData} = useContext(MemeContext);
-
-  const {id, url, name} = memeData;
+  const { id, url, name } = memeData;
   return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="md">
-        {/* End hero unit */}
-        <Grid container spacing={2}>
+    <ImageList
+    variant="masonry" cols={3} gap={8}
+    >
+      {memeData.map((item) => (
+        <Link to={`/memes/${item.id}`}>
+       <ImageListItem key={item.img}>
+      <img
+        src={`${item.url}?w=248&fit=crop&auto=format`}
+        srcSet={`${item.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+        alt={item.title}
+      />
+    </ImageListItem>
+        </Link>
+      ))}
+    </ImageList>
+  );
+}
+
+export default Images;
+
+{
+  /* <Grid container spacing={2}>
           {memeData.map((meme) => (
             <Grid
               item
@@ -57,11 +74,5 @@ function Images() {
               </Link>
             </Grid>
           ))}
-        </Grid>
-      </Container>
-    </ThemeProvider>
-  );
+                </Grid>*/
 }
-
-export default Images;
-
