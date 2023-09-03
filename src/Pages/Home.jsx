@@ -30,6 +30,7 @@ export default function Home() {
           <Route path="/" element={<Main />} />
           <Route path="/selectmemes" element={<SelectMemes />} />
           <Route path="/memes/:id" element={<MemeEdit />} />
+          <Route path="/upload" element={<MemeEdit />} />
         </Routes>
         <Footer />
       </BrowserRouter>

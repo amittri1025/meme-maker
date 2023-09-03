@@ -42,7 +42,7 @@ function Main() {
               <Typography
                 variant="h5"
                 align="center"
-                color="text.secondary"
+                // color="text.secondary" 
                 paragraph
               >
                 The most sweetest meme maker app you ever came across.
@@ -56,7 +56,9 @@ function Main() {
                 <Button variant="contained">
                   <Link to="/selectmemes">Choose Photos</Link>
                 </Button>
-                <Button variant="outlined">Upload Photo</Button>
+                <Button variant="contained">
+                  <Link to="/upload">Upload Photo</Link>
+                </Button>
               </Stack>
             </Container>
           </Box>

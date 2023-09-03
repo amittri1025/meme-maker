@@ -25,6 +25,8 @@ import TextIncreaseIcon from "@mui/icons-material/TextIncrease";
 import TextDecreaseIcon from "@mui/icons-material/TextDecrease";
 import * as htmlToImage from "html-to-image";
 import DownloadIcon from "@mui/icons-material/Download";
+import "./MemeEdit.css";
+import sampleimg from '../images/sampleimage.png'
 // TODO remove, this demo shouldn't need to reset the theme.
 
 // const defaultTheme = createTheme();
@@ -35,7 +37,7 @@ export default function MemeEdit() {
   console.log(memeData);
 
   const { id } = useParams();
-
+  const [memeimg, setMemeImg] = useState(sampleimg);
   const getMeme = memeData.find((meme) => meme.id == id);
 
   console.log(getMeme?.url);
@@ -60,9 +62,9 @@ export default function MemeEdit() {
       let newSize = prevSize;
 
       if (action === "increase") {
-        newSize += 1;
+        newSize += .5;
       } else if (action === "decrease") {
-        newSize -= 1;
+        newSize -= .3;
       }
 
       return newSize;
@@ -96,11 +98,10 @@ export default function MemeEdit() {
 
   //Add local image
   const handleUpload = (event) => {
-    console.log("hello");
     event.preventDefault();
     const { files } = event.target;
     const uploadFile = URL.createObjectURL(files[0]);
-    setImgs(uploadFile);
+    setMemeImg(uploadFile);
   };
 
   const MemeText = styled.h1`
@@ -117,6 +118,10 @@ export default function MemeEdit() {
       -${fontSize * 1.5}px 0px 0px #111, 0px -${fontSize * 1.5}px 0px #111;
   `;
 
+
+  const params = useParams();
+
+  console.log(params)
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -143,7 +148,7 @@ export default function MemeEdit() {
             {/* // meme and image both */}
             <Box
               component="img"
-              src={getMeme?.url}
+              src={getMeme?(getMeme?.url):memeimg}
               sx={{
                 width: "100%",
                 height: "100%",
@@ -195,37 +200,29 @@ export default function MemeEdit() {
                 ></TextField>
               ))}
 
-              <Stack direction="row" spacing={2}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                justifyContent="space-between"
+              >
+                {/* <input
+                 
+                /> */}
                 <input
                   type="color"
-                  value={textColor}
+                  value="#43da86"
+                  id="style1"
                   onChange={handleColorChange}
                 />
-                <Button
-                  variant="contained"
-                  color="greenblue"
-                  onClick={addTextInput}
-                >
-                  Add Text
+                <Button onClick={addTextInput}>
                   <AddCircleIcon />
                 </Button>
-                <Button
-                  variant="contained"
-                  color="red"
-                  onClick={handleMemeTextChange}
-                >
-                  Insert Text <CheckCircleIcon />
+                <Button onClick={handleMemeTextChange}>
+                  <CheckCircleIcon />
                 </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => handleMemeTextSize("increase")}
-                >
+                <Button onClick={() => handleMemeTextSize("increase")}>
                   <TextIncreaseIcon />
                 </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => handleMemeTextSize("decrease")}
-                >
+                <Button onClick={() => handleMemeTextSize("decrease")}>
                   <TextDecreaseIcon />
                 </Button>
               </Stack>
