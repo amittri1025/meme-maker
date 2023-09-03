@@ -6,38 +6,56 @@ import Container from "@mui/material/Container";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { MemeContext } from "../Contexts/MemeContext";
 import { Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Box } from "@mui/material";
 
-
-function srcset(image, size, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${size * cols}&h=${
-      size * rows
-    }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
+// function srcset(image, size, rows = 1, cols = 1) {
+//   return {
+//     src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+//     srcSet: `${image}?w=${size * cols}&h=${
+//       size * rows
+//     }&fit=crop&auto=format&dpr=2 2x`,
+//   };
+// }
 
 function Images() {
   const theme = useTheme();
   const { memeData } = useContext(MemeContext);
+  const [imagesLoaded, setImagesLoaded] = useState(true);
 
-  const { id, url, name } = memeData;
+  setTimeout(()=>{
+    setImagesLoaded(false);
+  }, 2000)
+
   return (
-    <ImageList
-    variant="masonry" cols={3} gap={8}
-    >
-      {memeData.map((item) => (
-        <Link to={`/memes/${item.id}`}>
-       <ImageListItem key={item.img}>
-      <img
-        src={`${item.url}?w=248&fit=crop&auto=format`}
-        srcSet={`${item.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        alt={item.title}
-      />
-    </ImageListItem>
-        </Link>
-      ))}
-    </ImageList>
+    <div>
+      {imagesLoaded ? (
+        <Box
+        sx={{
+          width: 300,
+          height: 300,
+          display:"flex",
+          justifyContent:"center",
+          margin: "auto"
+        }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <ImageList variant="masonry" cols={3} gap={8}>
+          {memeData.map((item) => (
+            <Link to={`/memes/${item.id}`} key={item.id}>
+              <ImageListItem key={item.id}>
+                <img
+                  src={`${item.url}?w=248&fit=crop&auto=format`}
+                  srcSet={`${item.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.title}
+                />
+              </ImageListItem>
+            </Link>
+          ))}
+        </ImageList>
+      )}
+    </div>
   );
 }
 
